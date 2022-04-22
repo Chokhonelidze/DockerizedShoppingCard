@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+  client:
+    build: "client"
+
+    ports:
+      - "5000:5000"
+    
+    depends_on:
+      - "server"
+    image: chokhonelidze/client:latest
+  
+  server: 
+    build: "server"
+    
+    ports:
+     - "3000:3000"
+    
+    depends_on:
+
+      - mongo
+    links:
+     - mongo
+    environment:
+      - DB=mongodb://mongo:27017/app_development
+    image: chokhonelidze/server:latest
+  mongo:
+    image: mongo
+
+    ports:
+      - "27017:27017"
+
